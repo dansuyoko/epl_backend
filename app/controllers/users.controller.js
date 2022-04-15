@@ -15,11 +15,10 @@ exports.findAll = (req, res) => {
 exports.create = (req, res) => {
     const users = new Users({
         email: req.body.email,
-        pass: req.body.pass,
-        namaDepan: req.body.namaDepan,
-        namaBelakang: req.body.namaBelakang,
-        asal: req.body.asal,
-        status: req.body.status,
+        username: req.body.useername,
+        address: req.body.address,
+        phone_number: req.body.phone_number,
+        password: req.body.pass,
     })
     
     users.save(users)
