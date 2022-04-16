@@ -37,7 +37,7 @@ exports.create = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params._id
 
-    News.findById(id)
+    News.findById({_id: id})
     .then((result) => {
         res.send(result)
     }).catch((err) => {
