@@ -1,14 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
-const app = express();
 const path = require('path');
+
+const app = express();
 
 app.use(express.json())
 app.use(express.urlencoded({
     extended: true
 }));
-
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -38,7 +38,6 @@ const corsOptions ={
 app.use(cors(corsOptions));
 
 const db = require('./app/models/');
-const { club } = require('./app/models/');
 db.mongoose
     .connect(db.url)
     .then(() => {
@@ -50,7 +49,7 @@ db.mongoose
 
 app.get('/',(req, res) => {
     res.json({
-        meassage: "welcome brow"
+        meassage: "welcome"
     })
 })
 

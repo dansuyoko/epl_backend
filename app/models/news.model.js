@@ -4,7 +4,6 @@ module.exports = (mongoose) => {
             title: String,
             body: String,
             category: Array,
-            image: String,
             club: Array,
             createdBy: String
         },

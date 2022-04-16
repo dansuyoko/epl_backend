@@ -13,21 +13,15 @@ exports.findAll = (req, res) => {
     });
 }
 
-
 exports.create = (req, res) => {
-    if(!req.file){
-        const err =new Error('Image harus diupload');
-        err.errorStatus = 422;
-        throw err;
-    }
-
     const image = req.file.path;
     const news = new News({
         image: image,
         title: req.body.title,
         body: req.body.body,
         category: req.body.category,
-        club: req.body.club
+        club: req.body.club,
+        createdBy: req.params._id
     })
     
     news.save(news)
@@ -44,6 +38,19 @@ exports.findOne = (req, res) => {
     const id = req.params._id
 
     News.findById(id)
+    .then((result) => {
+        res.send(result)
+    }).catch((err) => {
+        res.status(409).send({
+            message: err.message || "Some error while show news."
+        })
+    });
+}
+
+exports.findUser = (req, res) => {
+    const id = req.params._id
+
+    News.find({createdBy: id})
     .then((result) => {
         res.send(result)
     }).catch((err) => {
