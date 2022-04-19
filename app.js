@@ -5,16 +5,8 @@ const multer = require('multer');
 const path = require('path');
 const app = express();
 
-<<<<<<< HEAD
 app.use(bodyParser.json());
 app.use(cors());
-=======
-const app = express();
-
-const app = express();
-
-app.use(express.json())
->>>>>>> dcfb1be2047f65331054800ad4210d00f2071f1d
 app.use(express.urlencoded({
     extended: true
 }));
@@ -47,14 +39,8 @@ const corsOptions ={
 app.use(cors(corsOptions));
 
 const db = require('./app/models/');
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 const { mongoose } = require('./app/models/');
 const { userInfo } = require('os');
-=======
->>>>>>> dcfb1be2047f65331054800ad4210d00f2071f1d
->>>>>>> Stashed changes
 db.mongoose
     .connect(db.url)
     .then(() => {
@@ -66,18 +52,6 @@ db.mongoose
 
     
 
-app.post('/login', async (req, res) => {
-    const user = await user.findOne({
-        email: req.body.email,
-        password: req.body.password
-    })
-
-    if (user) {
-        return res.json({status:'ok', user:true})
-    } else {
-        return res.json({status:'error', user:false})
-    }
-})
 
 app.get('/',(req, res) => {
     res.json({

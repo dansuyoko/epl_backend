@@ -1,11 +1,11 @@
 module.exports = (mongoose) => {
     const schema = mongoose.Schema(
         {
-            image: String,
             title: String,
             body: String,
             category: Array,
             club: Array,
+            image: String,
             createdBy: String
         },
         {timestamps: true}
