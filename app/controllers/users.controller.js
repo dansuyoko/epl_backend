@@ -25,8 +25,7 @@ exports.create = (req, res) => {
     
     users.save(users)
     .then((result) => {
-        res.send(result)
-        console.log(result);
+        res.send(result);
     }).catch((err) => {
         res.status(409).send({
             message: err.message || "Some error while create user."
