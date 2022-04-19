@@ -51,6 +51,22 @@ exports.findUser = (req, res) => {
     const id = req.params._id
 
     News.find({createdBy: id})
+<<<<<<< Updated upstream
+=======
+    .then((result) => {
+        res.send(result)
+    }).catch((err) => {
+        res.status(409).send({
+            message: err.message || "Some error while show news."
+        })
+    });
+}
+
+exports.findUser = (req, res) => {
+    const id = req.params._id
+
+    News.find({createdBy: id})
+>>>>>>> Stashed changes
     .then((result) => {
         res.send(result)
     }).catch((err) => {
