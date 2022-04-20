@@ -1,6 +1,9 @@
 const db = require('../models');
 const Users = db.users;
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+var payload = {}
 
 exports.findAll = (req, res) => {
     Users.find()
@@ -22,7 +25,7 @@ exports.create = (req, res) => {
         phone_number: req.body.phone_number,
         password: req.body.password,
     })
-    
+    users.password = bcrypt.hashSync(req.body.password, 10);
     users.save(users)
     .then((result) => {
         res.send(result);
@@ -35,12 +38,29 @@ exports.create = (req, res) => {
 
 exports.login = async (req, res) => {
     const user = await Users.findOne({
-        email: req.body.email,
-        password: req.body.password,
+        email: req.body.email
     })
     
     .then((result) => {
-        res.send(result)
+        payload = {
+            _id: result._id,
+            email: result.email,
+            username: result.username,
+            address: result.address,
+            phone_number: result.phone_number,
+        }
+        bcrypt.compare(req.body.password, result.password, function(err, result) {
+            if (err) {res.status(409).send({
+                message: err.message || "Some error while create user."
+            })};
+            if (result == true){
+
+                const token = jwt.sign(payload, 'secret', {expiresIn: '1h'})
+
+                return res.send({payload, message: 'Login Success.', token: token })
+            }
+            else {return res.status(400).send({ message: 'Phone number or password is invalid.'})}
+    });
     }).catch((err) => {
         res.status(409).send({
             message: err.message || "Some error while create user."
