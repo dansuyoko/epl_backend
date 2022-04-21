@@ -17,7 +17,7 @@ exports.findAll = (req, res) => {
 }
 
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     const users = new Users({
         email: req.body.email,
         username: req.body.username,
@@ -25,10 +25,22 @@ exports.create = (req, res) => {
         phone_number: req.body.phone_number,
         password: req.body.password,
     })
-    users.password = bcrypt.hashSync(req.body.password, 10);
-    users.save(users)
+    const checkEmail = await Users.findOne({
+        email: req.body.email
+    })
     .then((result) => {
-        res.send(result);
+        if(result == null) {
+            users.password = bcrypt.hashSync(req.body.password, 10);
+            users.save(users)
+            .then((result) => {
+                res.send({result, message: 'Login Success.'});
+            }).catch((err) => {
+                res.status(409).send({
+                    message: err.message || "Some error while create user."
+                })
+            });
+        }
+        else {res.send("Email already used.")}
     }).catch((err) => {
         res.status(409).send({
             message: err.message || "Some error while create user."
