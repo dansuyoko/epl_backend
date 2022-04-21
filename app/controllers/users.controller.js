@@ -33,14 +33,14 @@ exports.create = async (req, res) => {
             users.password = bcrypt.hashSync(req.body.password, 10);
             users.save(users)
             .then((result) => {
-                res.send({result, message: 'Login Success.'});
+                res.send({result});
             }).catch((err) => {
                 res.status(409).send({
                     message: err.message || "Some error while create user."
                 })
             });
         }
-        else {res.send("Email already used.")}
+        else {res.send({message: "Email already used."})}
     }).catch((err) => {
         res.status(409).send({
             message: err.message || "Some error while create user."
